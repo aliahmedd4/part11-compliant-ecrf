@@ -1,0 +1,17 @@
+{
+  "name": "part11-ecrf-oq",
+  "version": "1.0.0",
+  "description": "Operational Qualification (OQ) executable test suite — API (Jest) and UI (Playwright)",
+  "license": "MIT",
+  "scripts": {
+    "oq:api": "jest --config jest.config.js --runInBand",
+    "oq:ui": "playwright test",
+    "dump:audit": "node dumpAudit.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1",
+    "jest": "29.7.0",
+    "mongodb-memory-server": "10.1.2",
+    "supertest": "7.0.0"
+  }
+}

@@ -1,1 +1,13 @@
 node_modules/
+npm-debug.log*
+
+# Generated OQ evidence artefacts — keep the folder, ignore the timestamped runs.
+evidence/*.json
+!evidence/.gitkeep
+
+# Playwright
+test-results/
+playwright-report/
+
+# Build output
+client/dist/
