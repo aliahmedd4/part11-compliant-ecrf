@@ -1,0 +1,171 @@
+{
+  "artefact": "Audit Trail Evidence Dump",
+  "generatedUTC": "2026-07-26T19:08:11.592Z",
+  "scenario": "enrol → enter vitals → query raise/respond/close → sign → blocked illegal edit → amend → blocked privilege escalation",
+  "totalEvents": 11,
+  "events": [
+    {
+      "_id": "6a665b1b316697b912b65e30",
+      "whoUserId": "6a665b1a316697b912b65e0e",
+      "whoUsername": "investigator",
+      "targetModel": "User",
+      "docId": "6a665b1a316697b912b65e0e",
+      "field": null,
+      "oldValue": null,
+      "newValue": null,
+      "reason": "successful login",
+      "action": "login",
+      "whenUTC": "2026-07-26T19:08:11.248Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e35",
+      "whoUserId": "6a665b1b316697b912b65e21",
+      "whoUsername": "monitor",
+      "targetModel": "User",
+      "docId": "6a665b1b316697b912b65e21",
+      "field": null,
+      "oldValue": null,
+      "newValue": null,
+      "reason": "successful login",
+      "action": "login",
+      "whenUTC": "2026-07-26T19:08:11.341Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e3a",
+      "whoUserId": "6a665b1a316697b912b65e1f",
+      "whoUsername": "datamanager",
+      "targetModel": "User",
+      "docId": "6a665b1a316697b912b65e1f",
+      "field": null,
+      "oldValue": null,
+      "newValue": null,
+      "reason": "successful login",
+      "action": "login",
+      "whenUTC": "2026-07-26T19:08:11.429Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e3f",
+      "whoUserId": "6a665b1a316697b912b65e0e",
+      "whoUsername": "investigator",
+      "targetModel": "FormInstance",
+      "docId": "6a665b1b316697b912b65e3d",
+      "field": null,
+      "oldValue": null,
+      "newValue": {
+        "type": "vitals",
+        "data": {
+          "systolic": 120,
+          "diastolic": 80,
+          "heartRate": 70
+        }
+      },
+      "reason": "form created",
+      "action": "create",
+      "whenUTC": "2026-07-26T19:08:11.439Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e44",
+      "whoUserId": "6a665b1b316697b912b65e21",
+      "whoUsername": "monitor",
+      "targetModel": "Query",
+      "docId": "6a665b1b316697b912b65e42",
+      "field": "data.systolic",
+      "oldValue": null,
+      "newValue": "open",
+      "reason": "Confirm against source",
+      "action": "query_raise",
+      "whenUTC": "2026-07-26T19:08:11.449Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e49",
+      "whoUserId": "6a665b1a316697b912b65e0e",
+      "whoUsername": "investigator",
+      "targetModel": "Query",
+      "docId": "6a665b1b316697b912b65e42",
+      "field": "data.systolic",
+      "oldValue": "open",
+      "newValue": "answered",
+      "reason": "Confirmed",
+      "action": "query_respond",
+      "whenUTC": "2026-07-26T19:08:11.463Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e4e",
+      "whoUserId": "6a665b1a316697b912b65e1f",
+      "whoUsername": "datamanager",
+      "targetModel": "Query",
+      "docId": "6a665b1b316697b912b65e42",
+      "field": "data.systolic",
+      "oldValue": "answered",
+      "newValue": "closed",
+      "reason": "Resolved",
+      "action": "query_close",
+      "whenUTC": "2026-07-26T19:08:11.473Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e56",
+      "whoUserId": "6a665b1a316697b912b65e0e",
+      "whoUsername": "investigator",
+      "targetModel": "FormInstance",
+      "docId": "6a665b1b316697b912b65e3d",
+      "field": null,
+      "oldValue": null,
+      "newValue": {
+        "meaning": "author",
+        "contentHash": "b255b517670cdba65726b6fa7397b2687d920f19fe624f1650f8a3ff8ff2cbbe"
+      },
+      "reason": "electronic signature (author)",
+      "action": "sign",
+      "whenUTC": "2026-07-26T19:08:11.563Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e5d",
+      "whoUserId": "6a665b1a316697b912b65e0e",
+      "whoUsername": "investigator",
+      "targetModel": "FormInstance",
+      "docId": "6a665b1b316697b912b65e3d",
+      "field": "data.systolic",
+      "oldValue": 120,
+      "newValue": 122,
+      "reason": "amendment: source verification correction",
+      "action": "amend",
+      "whenUTC": "2026-07-26T19:08:11.579Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e5f",
+      "whoUserId": "6a665b1a316697b912b65e0e",
+      "whoUsername": "investigator",
+      "targetModel": "FormInstance",
+      "docId": "6a665b1b316697b912b65e3d",
+      "field": "version",
+      "oldValue": 1,
+      "newValue": 2,
+      "reason": "amendment: source verification correction",
+      "action": "amend",
+      "whenUTC": "2026-07-26T19:08:11.580Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a665b1b316697b912b65e62",
+      "whoUserId": "6a665b1b316697b912b65e21",
+      "whoUsername": "monitor",
+      "targetModel": "form",
+      "field": null,
+      "oldValue": null,
+      "newValue": "write:form",
+      "reason": "Access denied for role Monitor",
+      "action": "access_denied",
+      "whenUTC": "2026-07-26T19:08:11.587Z",
+      "__v": 0
+    }
+  ]
+}

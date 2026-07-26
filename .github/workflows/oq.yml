@@ -1,0 +1,49 @@
+name: OQ — Operational Qualification (executable evidence)
+
+# This workflow is the Computer Software Assurance (CSA) engine of the validation.
+# On every push/PR it runs the automated OQ suite against a real (in-memory)
+# MongoDB, generates timestamped evidence + an audit-trail dump, and publishes them
+# as a build artefact. The green check IS the objective evidence that the Part 11
+# controls still hold — no screenshots, no manual test scripts.
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  api-oq:
+    name: API OQ (Jest + supertest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Install OQ dependencies
+        working-directory: oq
+        run: npm ci
+
+      - name: Run API OQ suite (generates evidence)
+        working-directory: oq
+        run: npm run oq:api
+
+      - name: Generate audit-trail evidence dump
+        working-directory: oq
+        run: npm run dump:audit
+
+      - name: Upload OQ evidence artefact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oq-evidence
+          path: evidence/*.json
+          retention-days: 90

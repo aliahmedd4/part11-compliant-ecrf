@@ -1,9 +1,13 @@
 node_modules/
 npm-debug.log*
 
-# Generated OQ evidence artefacts — keep the folder, ignore the timestamped runs.
+# Generated OQ evidence artefacts — ignore the timestamped runs, but keep the
+# canonical "latest" pointers committed as reference evidence for the validation
+# package (they are regenerated on every OQ run / CI build).
 evidence/*.json
 !evidence/.gitkeep
+!evidence/oq-results-latest.json
+!evidence/audit-trail-latest.json
 
 # Playwright
 test-results/
