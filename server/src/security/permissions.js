@@ -46,12 +46,14 @@ const MATRIX = {
     'raise:query': true,
     'close:query': true,
     'export:dataset': true,
+    'read:audit': true,
   },
   Monitor: {
     'read:subject': true,
     'read:form': true,
     'read:query': true,
     'raise:query': true,
+    'read:audit': true,
   },
 };
 

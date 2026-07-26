@@ -41,7 +41,10 @@ function createApp() {
   // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
     const status = err.status || 500;
-    res.status(status).json({ error: err.code || 'server_error', message: err.message });
+    const body = { error: err.code || 'server_error', message: err.message };
+    // Surface structured edit-check violations to the client/OQ.
+    if (Array.isArray(err.errors)) body.errors = err.errors;
+    res.status(status).json(body);
   });
 
   return app;
