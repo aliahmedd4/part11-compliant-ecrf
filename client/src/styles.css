@@ -1,0 +1,23 @@
+:root { font-family: system-ui, sans-serif; color: #1a2233; }
+body { margin: 0; background: #f4f6fb; }
+.app { max-width: 1000px; margin: 0 auto; padding: 20px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #1f3a5f; color: #fff; border-radius: 8px; }
+.topbar .role { background: #2e5a8f; padding: 3px 10px; border-radius: 12px; font-size: 13px; }
+.card { background: #fff; border: 1px solid #dfe4ee; border-radius: 8px; padding: 16px; margin: 14px 0; }
+.card h3 { margin-top: 0; }
+label { display: block; font-size: 13px; margin: 8px 0 3px; font-weight: 600; }
+input, select { width: 100%; padding: 8px; border: 1px solid #c4ccda; border-radius: 6px; box-sizing: border-box; }
+button { background: #1f6feb; color: #fff; border: 0; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+button.secondary { background: #5b6472; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.error { color: #b3261e; font-size: 13px; margin: 6px 0; }
+.field-error { color: #b3261e; font-size: 12px; }
+.pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+.pill.signed { background: #d7f5dd; color: #106b2e; }
+.pill.locked { background: #fde2c4; color: #8a4b00; }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; }
+.modal { background: #fff; padding: 22px; border-radius: 10px; width: 380px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #eceff4; }
+.muted { color: #6b7280; font-size: 12px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
