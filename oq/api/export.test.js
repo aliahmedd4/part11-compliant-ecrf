@@ -53,4 +53,19 @@ describe('Dataset export with integrity checksum', () => {
     const ev = await AuditEvent.findOne({ action: 'access_denied', whoUsername: 'investigator', targetModel: 'dataset' });
     expect(ev).not.toBeNull();
   });
+
+  test('OQ-EXP-05: forms.csv rows are ordered deterministically by _id', async () => {
+    const inv = await fx.login('Investigator');
+    // Add a couple more forms so ordering is observable.
+    for (const hr of [61, 62, 63]) {
+      // eslint-disable-next-line no-await-in-loop
+      await ctx.agent.post('/forms').set('Authorization', `Bearer ${inv}`)
+        .send({ subjectId: fx.subject._id, visitId: fx.visit._id, type: 'vitals', data: { systolic: 120, diastolic: 80, heartRate: hr } });
+    }
+    const token = await fx.login('DataManager');
+    const res = await ctx.agent.get('/export/dataset').set('Authorization', `Bearer ${token}`);
+    const lines = res.body.files['forms.csv'].split('\n').slice(1); // drop header row
+    const ids = lines.map((l) => l.split(',')[0].replace(/"/g, ''));
+    expect(ids).toEqual([...ids].sort());
+  });
 });

@@ -20,9 +20,11 @@ const { serverNow } = require('../lib/time');
  * how to deliver them.
  */
 async function buildExport({ actor }) {
-  const subjects = await Subject.find({}).lean();
-  const forms = await FormInstance.find({}).lean();
-  const signatures = await Signature.find({}).lean();
+  // Deterministic order (by _id) so identical data always serializes to identical
+  // bytes — the checksum manifest is only meaningful if the export is reproducible.
+  const subjects = await Subject.find({}).sort({ _id: 1 }).lean();
+  const forms = await FormInstance.find({}).sort({ _id: 1 }).lean();
+  const signatures = await Signature.find({}).sort({ _id: 1 }).lean();
 
   const dataset = { subjects, forms, signatures };
   const generatedAtUTC = serverNow().toISOString();
