@@ -57,3 +57,13 @@ test('OQ-UI-04: signing requires re-authentication and locks the record', async 
   await expect(page.locator('.pill.signed').first()).toBeVisible();
   await expect(page.locator('text=read-only (amend to change)').first()).toBeVisible();
 });
+
+test('OQ-UI-05: a blank vital field is reported as required, not silently sent as 0', async ({ page }) => {
+  await login(page, 'investigator', PASSWORD);
+  await page.click('text=Open');
+  await page.fill('#systolic', '120');
+  await page.fill('#diastolic', '80');
+  // Leave heartRate blank on purpose.
+  await page.click('text=Save vital signs');
+  await expect(page.locator('.field-error')).toContainText(/heart rate is required/i);
+});
