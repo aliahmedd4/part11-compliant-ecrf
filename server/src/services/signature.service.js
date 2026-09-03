@@ -55,14 +55,9 @@ async function sign({ actor, password, formId, meaning }) {
     e.status = 422; e.code = 'invalid_meaning'; throw e;
   }
 
-  // 1. Re-authenticate. A signature is only valid if the password is re-entered
-  //    and correct at the moment of signing.
-  const ok = await verifyCredentials(actor.username, password);
-  if (!ok) {
-    await writeAudit({ actor, collection: 'FormInstance', docId: formId, action: 'access_denied', reason: 'signature re-authentication failed' });
-    const e = new Error('Re-authentication failed'); e.status = 401; e.code = 'reauth_failed'; throw e;
-  }
-
+  // 1. Fetch the form and reject already-signed records BEFORE re-authentication.
+  //    A locked record is rejected without consuming a re-auth attempt, so a
+  //    re-sign attempt cannot interact with account lockout.
   const form = await FormInstance.findById(formId);
   if (!form) { const e = new Error('Form not found'); e.status = 404; throw e; }
 
@@ -73,23 +68,41 @@ async function sign({ actor, password, formId, meaning }) {
     const e = new Error('Record is already signed'); e.status = 409; e.code = 'already_signed'; throw e;
   }
 
-  // 2. Compute the binding hash over the canonical signed content + pepper.
+  // 2. Re-authenticate. A signature is only valid if the password is re-entered
+  //    and correct at the moment of signing.
+  const ok = await verifyCredentials(actor.username, password);
+  if (!ok) {
+    await writeAudit({ actor, collection: 'FormInstance', docId: formId, action: 'access_denied', reason: 'signature re-authentication failed' });
+    const e = new Error('Re-authentication failed'); e.status = 401; e.code = 'reauth_failed'; throw e;
+  }
+
+  // 3. Compute the binding hash over the canonical signed content + pepper.
   const hash = contentHash(signableContent(form), config.signaturePepper);
 
-  // 3. Persist the signature manifestation (append-only collection).
-  const signature = await Signature.create({
-    recordCollection: 'FormInstance',
-    recordId: form._id,
-    recordVersion: form.version,
-    signerUserId: actor._id,
-    signerUsername: actor.username,
-    printedName: actor.printedName,
-    whenUTC: serverNow(),
-    meaning,
-    contentHash: hash,
-  });
+  // 4. Persist the signature manifestation (append-only collection).
+  //    A try/catch translates a concurrent duplicate-key race on the unique index
+  //    to the same 409 the guard above would have returned.
+  let signature;
+  try {
+    signature = await Signature.create({
+      recordCollection: 'FormInstance',
+      recordId: form._id,
+      recordVersion: form.version,
+      signerUserId: actor._id,
+      signerUsername: actor.username,
+      printedName: actor.printedName,
+      whenUTC: serverNow(),
+      meaning,
+      contentHash: hash,
+    });
+  } catch (err) {
+    if (err && err.code === 11000) {
+      const e = new Error('Record is already signed'); e.status = 409; e.code = 'already_signed'; throw e;
+    }
+    throw err;
+  }
 
-  // 4. Lock the record. Signed data is read-only outside the amendment workflow.
+  // 5. Lock the record. Signed data is read-only outside the amendment workflow.
   form.locked = true;
   form.status = 'signed';
   await form.save();
