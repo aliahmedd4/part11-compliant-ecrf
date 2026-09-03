@@ -6,6 +6,7 @@ const { seedFixtures } = require('../setup/fixtures');
 
 const AuditEvent = require(path.join(SERVER_SRC, 'models', 'auditEvent.model'));
 const Subject = require(path.join(SERVER_SRC, 'models', 'subject.model'));
+const FormInstance = require(path.join(SERVER_SRC, 'models', 'formInstance.model'));
 
 /**
  * OQ — Subject enrolment and form data entry with edit checks, audit, and
@@ -85,5 +86,18 @@ describe('Subject enrolment and form data entry', () => {
     expect(del.status).toBe(404);
     // And the model layer itself refuses mutation (defence in depth).
     await expect(AuditEvent.updateOne({ _id: ev._id }, { newValue: 'hacked' })).rejects.toThrow(/append-only/i);
+  });
+
+  test('OQ-FORM-07: a stale concurrent save is rejected (optimistic concurrency)', async () => {
+    const created = await ctx.agent.post('/forms').set('Authorization', `Bearer ${token}`)
+      .send({ subjectId: fx.subject._id, visitId: fx.visit._id, type: 'vitals', data: { systolic: 120, diastolic: 80, heartRate: 70 } });
+    const id = created.body._id;
+
+    const a = await FormInstance.findById(id);
+    const b = await FormInstance.findById(id);
+    a.data = { ...a.toObject().data, systolic: 121 };
+    await a.save();
+    b.data = { ...b.toObject().data, systolic: 122 };
+    await expect(b.save()).rejects.toThrow(/version/i);
   });
 });

@@ -68,7 +68,7 @@ async function updateForm({ actor, formId, data, reason }) {
 
   const before = toPlain(form.data);
   form.data = merged;
-  await form.save();
+  await saveWithConcurrencyGuard(form);
   await diffAndAudit({
     before, after: merged, actor, collection: 'FormInstance', docId: form._id, reason, action: 'update', prefix: 'data',
   });
@@ -106,7 +106,7 @@ async function amendForm({ actor, formId, data, reason }) {
   form.version = oldVersion + 1; // ties any prior signature to the superseded version
   form.locked = false; // re-opened; a new signature is required
   form.status = 'complete';
-  await form.save();
+  await saveWithConcurrencyGuard(form);
 
   await diffAndAudit({
     before, after: merged, actor, collection: 'FormInstance', docId: form._id,
@@ -135,6 +135,17 @@ async function deleteForm({ actor, formId, reason }) {
 function toPlain(v) {
   if (v && typeof v.toObject === 'function') return v.toObject();
   return { ...(v || {}) };
+}
+async function saveWithConcurrencyGuard(doc) {
+  try {
+    await doc.save();
+  } catch (err) {
+    if (err && err.name === 'VersionError') {
+      const e = new Error('The record was modified concurrently; reload and retry');
+      e.status = 409; e.code = 'version_conflict'; throw e;
+    }
+    throw err;
+  }
 }
 function editCheckError(errors) {
   const e = new Error('Edit checks failed'); e.status = 422; e.code = 'edit_check_failed'; e.errors = errors; return e;

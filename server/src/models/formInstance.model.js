@@ -27,7 +27,7 @@ const formInstanceSchema = new mongoose.Schema(
     // version of the content.
     version: { type: Number, default: 1 },
   },
-  { timestamps: true, minimize: false }
+  { timestamps: true, minimize: false, optimisticConcurrency: true }
 );
 
 formInstanceSchema.plugin(softDeletePlugin);
