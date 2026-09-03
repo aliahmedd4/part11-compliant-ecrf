@@ -48,7 +48,8 @@ async function respondQuery({ actor, queryId, text }) {
 async function closeQuery({ actor, queryId, text }) {
   const query = await Query.findById(queryId);
   if (!query) throw notFound();
-  if (query.status === 'closed') throw invalidTransition('closed', 'close');
+  // A query may only be closed from the 'answered' state (open -> answered -> closed).
+  if (query.status !== 'answered') throw invalidTransition(query.status, 'close');
   const prev = query.status;
   query.status = 'closed';
   query.history.push(historyEntry('close', actor, text));

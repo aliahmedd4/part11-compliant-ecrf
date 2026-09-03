@@ -69,4 +69,15 @@ describe('Query workflow', () => {
     const res = await ctx.agent.post(`/queries/${raised.body._id}/close`).set('Authorization', `Bearer ${investigator}`).send({ text: 'x' });
     expect(res.status).toBe(403);
   });
+
+  test('OQ-QRY-05: an open query cannot be closed until it has been answered (409)', async () => {
+    const monitor = await fx.login('Monitor');
+    const dataManager = await fx.login('DataManager');
+    const raised = await ctx.agent.post('/queries').set('Authorization', `Bearer ${monitor}`)
+      .send({ formInstanceId: formId, field: 'data.diastolic', text: 'Confirm diastolic' });
+    const res = await ctx.agent.post(`/queries/${raised.body._id}/close`).set('Authorization', `Bearer ${dataManager}`)
+      .send({ text: 'closing early' });
+    expect(res.status).toBe(409);
+    expect(res.body.error).toBe('invalid_transition');
+  });
 });
