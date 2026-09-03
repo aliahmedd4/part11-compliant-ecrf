@@ -100,4 +100,11 @@ describe('Subject enrolment and form data entry', () => {
     b.data = { ...b.toObject().data, systolic: 122 };
     await expect(b.save()).rejects.toThrow(/version/i);
   });
+
+  test('OQ-FORM-08: a subject exposes its study visit schedule (enables form entry)', async () => {
+    const res = await ctx.agent.get(`/subjects/${fx.subject._id}/visits`).set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBeGreaterThan(0);
+    expect(res.body[0].studyId).toBe(String(fx.study._id));
+  });
 });
