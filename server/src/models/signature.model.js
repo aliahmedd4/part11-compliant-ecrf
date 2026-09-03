@@ -39,6 +39,9 @@ const signatureSchema = new mongoose.Schema(
 );
 
 signatureSchema.plugin(appendOnlyPlugin);
+// One signature per (record, version, meaning): blocks duplicate/concurrent signs
+// of the same manifestation even if two requests race past the service guard.
+signatureSchema.index({ recordId: 1, recordVersion: 1, meaning: 1 }, { unique: true });
 signatureSchema.statics.MEANINGS = MEANINGS;
 
 module.exports = mongoose.model('Signature', signatureSchema);

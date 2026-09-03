@@ -66,6 +66,13 @@ async function sign({ actor, password, formId, meaning }) {
   const form = await FormInstance.findById(formId);
   if (!form) { const e = new Error('Form not found'); e.status = 404; throw e; }
 
+  // A signed/locked record is closed to further signatures; it must be amended
+  // (which re-opens it under a new version) before it can be signed again.
+  if (form.locked || form.status === 'signed') {
+    await writeAudit({ actor, collection: 'FormInstance', docId: form._id, action: 'access_denied', reason: 'attempt to re-sign an already-signed record' });
+    const e = new Error('Record is already signed'); e.status = 409; e.code = 'already_signed'; throw e;
+  }
+
   // 2. Compute the binding hash over the canonical signed content + pepper.
   const hash = contentHash(signableContent(form), config.signaturePepper);
 

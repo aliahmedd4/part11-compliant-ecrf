@@ -82,4 +82,19 @@ describe('Electronic signatures — binding, locking, tamper-evidence', () => {
     await expect(Signature.updateOne({ _id: sig._id }, { meaning: 'approver' })).rejects.toThrow(/append-only/i);
     await expect(Signature.deleteOne({ _id: sig._id })).rejects.toThrow(/append-only/i);
   });
+
+  test('OQ-SIG-07: an already-signed record cannot be signed again (409, no second signature)', async () => {
+    const form = await newVitalsForm();
+    const first = await ctx.agent.post(`/forms/${form._id}/sign`).set('Authorization', `Bearer ${token}`)
+      .send({ password: PASSWORD, meaning: 'author' });
+    expect(first.status).toBe(201);
+
+    const second = await ctx.agent.post(`/forms/${form._id}/sign`).set('Authorization', `Bearer ${token}`)
+      .send({ password: PASSWORD, meaning: 'reviewer' });
+    expect(second.status).toBe(409);
+    expect(second.body.error).toBe('already_signed');
+
+    const count = await Signature.countDocuments({ recordId: form._id });
+    expect(count).toBe(1);
+  });
 });
