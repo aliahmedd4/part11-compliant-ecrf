@@ -1,323 +1,27 @@
 {
   "artefact": "OQ Execution Record",
   "approach": "Computer Software Assurance (executable evidence, not screenshots)",
-  "runStartedUTC": "2026-07-26T19:34:23.029Z",
-  "runCompletedUTC": "2026-07-26T19:34:41.932Z",
+  "runStartedUTC": "2026-09-03T17:44:19.789Z",
+  "runCompletedUTC": "2026-09-03T17:44:37.078Z",
   "environment": {
     "node": "v24.14.0",
     "platform": "win32"
   },
   "summary": {
-    "totalSuites": 11,
-    "totalCases": 54,
-    "passed": 54,
+    "totalSuites": 12,
+    "totalCases": 64,
+    "passed": 64,
     "failed": 0,
     "pending": 0,
     "success": false
   },
   "cases": [
     {
-      "suite": "form.test.js",
-      "testCaseId": "OQ-FORM-01",
-      "title": "Subject enrolment and form data entry OQ-FORM-01: enrolment sets a server timestamp and is audited",
-      "status": "passed",
-      "durationMs": 19,
-      "failureMessages": []
-    },
-    {
-      "suite": "form.test.js",
-      "testCaseId": "OQ-FORM-02",
-      "title": "Subject enrolment and form data entry OQ-FORM-02: SECURITY — a client-supplied timestamp is ignored (server time wins)",
-      "status": "passed",
-      "durationMs": 13,
-      "failureMessages": []
-    },
-    {
-      "suite": "form.test.js",
-      "testCaseId": "OQ-FORM-03",
-      "title": "Subject enrolment and form data entry OQ-FORM-03: invalid form data is rejected (422) and nothing is written",
-      "status": "passed",
-      "durationMs": 34,
-      "failureMessages": []
-    },
-    {
-      "suite": "form.test.js",
-      "testCaseId": "OQ-FORM-04",
-      "title": "Subject enrolment and form data entry OQ-FORM-04: valid update diff-audits only changed fields with a reason",
-      "status": "passed",
-      "durationMs": 30,
-      "failureMessages": []
-    },
-    {
-      "suite": "form.test.js",
-      "testCaseId": "OQ-FORM-05",
-      "title": "Subject enrolment and form data entry OQ-FORM-05: an update without a reason for change is rejected (422)",
-      "status": "passed",
-      "durationMs": 14,
-      "failureMessages": []
-    },
-    {
-      "suite": "form.test.js",
-      "testCaseId": "OQ-FORM-06",
-      "title": "Subject enrolment and form data entry OQ-FORM-06: SECURITY — there is no API path to modify an audit entry",
-      "status": "passed",
-      "durationMs": 107,
-      "failureMessages": []
-    },
-    {
-      "suite": "auth.test.js",
-      "testCaseId": "OQ-AUTH-01",
-      "title": "Authentication, password policy, lockout, session OQ-AUTH-01: valid login returns a session JWT with configured expiry",
-      "status": "passed",
-      "durationMs": 106,
-      "failureMessages": []
-    },
-    {
-      "suite": "auth.test.js",
-      "testCaseId": "OQ-AUTH-02",
-      "title": "Authentication, password policy, lockout, session OQ-AUTH-02: successful login is recorded in the audit trail",
-      "status": "passed",
-      "durationMs": 97,
-      "failureMessages": []
-    },
-    {
-      "suite": "auth.test.js",
-      "testCaseId": "OQ-AUTH-03",
-      "title": "Authentication, password policy, lockout, session OQ-AUTH-03: wrong password is rejected and audited as a failure",
-      "status": "passed",
-      "durationMs": 91,
-      "failureMessages": []
-    },
-    {
-      "suite": "auth.test.js",
-      "testCaseId": "OQ-AUTH-04",
-      "title": "Authentication, password policy, lockout, session OQ-AUTH-04: account locks after the configured number of failures",
-      "status": "passed",
-      "durationMs": 539,
-      "failureMessages": []
-    },
-    {
-      "suite": "auth.test.js",
-      "testCaseId": "OQ-AUTH-05",
-      "title": "Authentication, password policy, lockout, session OQ-AUTH-05: password change rejects a weak password (policy enforced)",
-      "status": "passed",
-      "durationMs": 184,
-      "failureMessages": []
-    },
-    {
-      "suite": "auth.test.js",
-      "testCaseId": "OQ-AUTH-06",
-      "title": "Authentication, password policy, lockout, session OQ-AUTH-06: password change rejects reuse of the current password",
-      "status": "passed",
-      "durationMs": 265,
-      "failureMessages": []
-    },
-    {
-      "suite": "auth.test.js",
-      "testCaseId": "OQ-AUTH-07",
-      "title": "Authentication, password policy, lockout, session OQ-AUTH-07: an expired session token is rejected",
-      "status": "passed",
-      "durationMs": 4,
-      "failureMessages": []
-    },
-    {
-      "suite": "auth.test.js",
-      "testCaseId": "OQ-AUTH-08",
-      "title": "Authentication, password policy, lockout, session OQ-AUTH-08: a request with no token is rejected",
-      "status": "passed",
-      "durationMs": 3,
-      "failureMessages": []
-    },
-    {
-      "suite": "query.test.js",
-      "testCaseId": "OQ-QRY-01",
-      "title": "Query workflow OQ-QRY-01: a Monitor can raise a query (open + history + audit)",
-      "status": "passed",
-      "durationMs": 100,
-      "failureMessages": []
-    },
-    {
-      "suite": "query.test.js",
-      "testCaseId": "OQ-QRY-02",
-      "title": "Query workflow OQ-QRY-02: full lifecycle raise -> respond -> close with separation of duties",
-      "status": "passed",
-      "durationMs": 303,
-      "failureMessages": []
-    },
-    {
-      "suite": "query.test.js",
-      "testCaseId": "OQ-QRY-03",
-      "title": "Query workflow OQ-QRY-03: an Investigator cannot raise a query (403 — not their authority)",
-      "status": "passed",
-      "durationMs": 93,
-      "failureMessages": []
-    },
-    {
-      "suite": "query.test.js",
-      "testCaseId": "OQ-QRY-04",
-      "title": "Query workflow OQ-QRY-04: an Investigator cannot close a query (403 — separation of duties)",
-      "status": "passed",
-      "durationMs": 189,
-      "failureMessages": []
-    },
-    {
-      "suite": "signature.test.js",
-      "testCaseId": "OQ-SIG-01",
-      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-01: signing requires correct re-authentication (wrong password → 401, no signature)",
-      "status": "passed",
-      "durationMs": 99,
-      "failureMessages": []
-    },
-    {
-      "suite": "signature.test.js",
-      "testCaseId": "OQ-SIG-02",
-      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-02: a valid signature captures printed name, UTC time, meaning, and a content hash",
-      "status": "passed",
-      "durationMs": 105,
-      "failureMessages": []
-    },
-    {
-      "suite": "signature.test.js",
-      "testCaseId": "OQ-SIG-03",
-      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-03: signing locks the record (status signed, locked=true)",
-      "status": "passed",
-      "durationMs": 118,
-      "failureMessages": []
-    },
-    {
-      "suite": "signature.test.js",
-      "testCaseId": "OQ-SIG-04",
-      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-04: signature verifies as VALID immediately after signing",
-      "status": "passed",
-      "durationMs": 112,
-      "failureMessages": []
-    },
-    {
-      "suite": "signature.test.js",
-      "testCaseId": "OQ-SIG-05",
-      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-05: invalid meaning is rejected",
-      "status": "passed",
-      "durationMs": 13,
-      "failureMessages": []
-    },
-    {
-      "suite": "signature.test.js",
-      "testCaseId": "OQ-SIG-06",
-      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-06: the Signature collection is append-only (cannot be altered or deleted)",
-      "status": "passed",
-      "durationMs": 106,
-      "failureMessages": []
-    },
-    {
-      "suite": "export.test.js",
-      "testCaseId": "OQ-EXP-01",
-      "title": "Dataset export with integrity checksum OQ-EXP-01: DataManager can export; files + checksum manifest returned",
-      "status": "passed",
-      "durationMs": 110,
-      "failureMessages": []
-    },
-    {
-      "suite": "export.test.js",
-      "testCaseId": "OQ-EXP-02",
-      "title": "Dataset export with integrity checksum OQ-EXP-02: recomputing the checksum of the exported file matches the manifest",
-      "status": "passed",
-      "durationMs": 97,
-      "failureMessages": []
-    },
-    {
-      "suite": "export.test.js",
-      "testCaseId": "OQ-EXP-03",
-      "title": "Dataset export with integrity checksum OQ-EXP-03: an export is recorded in the audit trail",
-      "status": "passed",
-      "durationMs": 98,
-      "failureMessages": []
-    },
-    {
-      "suite": "export.test.js",
-      "testCaseId": "OQ-EXP-04",
-      "title": "Dataset export with integrity checksum OQ-EXP-04: SECURITY — an Investigator cannot export the dataset (403 + logged)",
-      "status": "passed",
-      "durationMs": 95,
-      "failureMessages": []
-    },
-    {
-      "suite": "amendment.test.js",
-      "testCaseId": "OQ-AMD-01",
-      "title": "Amendment workflow on signed records OQ-AMD-01: SECURITY — editing a signed record via normal update is blocked (409)",
-      "status": "passed",
-      "durationMs": 106,
-      "failureMessages": []
-    },
-    {
-      "suite": "amendment.test.js",
-      "testCaseId": "OQ-AMD-02",
-      "title": "Amendment workflow on signed records OQ-AMD-02: amending requires a reason for change",
-      "status": "passed",
-      "durationMs": 107,
-      "failureMessages": []
-    },
-    {
-      "suite": "amendment.test.js",
-      "testCaseId": "OQ-AMD-03",
-      "title": "Amendment workflow on signed records OQ-AMD-03: a valid amendment bumps version, re-opens the record, and is audited",
-      "status": "passed",
-      "durationMs": 110,
-      "failureMessages": []
-    },
-    {
-      "suite": "amendment.test.js",
-      "testCaseId": "OQ-AMD-04",
-      "title": "Amendment workflow on signed records OQ-AMD-04: after amendment the prior signature no longer verifies (tamper-evident)",
-      "status": "passed",
-      "durationMs": 122,
-      "failureMessages": []
-    },
-    {
-      "suite": "rbac.test.js",
-      "testCaseId": "OQ-RBAC-01",
-      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-01: permission matrix returns expected authority decisions",
-      "status": "passed",
-      "durationMs": 1,
-      "failureMessages": []
-    },
-    {
-      "suite": "rbac.test.js",
-      "testCaseId": "OQ-RBAC-02",
-      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-02: Investigator (authorized) can write form data",
-      "status": "passed",
-      "durationMs": 107,
-      "failureMessages": []
-    },
-    {
-      "suite": "rbac.test.js",
-      "testCaseId": "OQ-RBAC-03",
-      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-03: SECURITY — Monitor privilege escalation via direct API is blocked (403) and logged",
-      "status": "passed",
-      "durationMs": 95,
-      "failureMessages": []
-    },
-    {
-      "suite": "rbac.test.js",
-      "testCaseId": "OQ-RBAC-04",
-      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-04: SECURITY — a token with a tampered role does not grant access",
-      "status": "passed",
-      "durationMs": 6,
-      "failureMessages": []
-    },
-    {
-      "suite": "rbac.test.js",
-      "testCaseId": "OQ-RBAC-05",
-      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-05: a token signed with the wrong secret is rejected",
-      "status": "passed",
-      "durationMs": 3,
-      "failureMessages": []
-    },
-    {
       "suite": "audit.integrity.test.js",
       "testCaseId": "OQ-AUD-01",
       "title": "Audit trail is append-only and complete OQ-AUD-01: writeAudit persists an event with a server timestamp",
       "status": "passed",
-      "durationMs": 126,
+      "durationMs": 125,
       "failureMessages": []
     },
     {
@@ -325,7 +29,7 @@
       "testCaseId": "OQ-AUD-02",
       "title": "Audit trail is append-only and complete OQ-AUD-02: AuditEvent cannot be updated via any pathway",
       "status": "passed",
-      "durationMs": 17,
+      "durationMs": 28,
       "failureMessages": []
     },
     {
@@ -345,11 +49,51 @@
       "failureMessages": []
     },
     {
+      "suite": "rbac.test.js",
+      "testCaseId": "OQ-RBAC-01",
+      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-01: permission matrix returns expected authority decisions",
+      "status": "passed",
+      "durationMs": 1,
+      "failureMessages": []
+    },
+    {
+      "suite": "rbac.test.js",
+      "testCaseId": "OQ-RBAC-02",
+      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-02: Investigator (authorized) can write form data",
+      "status": "passed",
+      "durationMs": 123,
+      "failureMessages": []
+    },
+    {
+      "suite": "rbac.test.js",
+      "testCaseId": "OQ-RBAC-03",
+      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-03: SECURITY — Monitor privilege escalation via direct API is blocked (403) and logged",
+      "status": "passed",
+      "durationMs": 96,
+      "failureMessages": []
+    },
+    {
+      "suite": "rbac.test.js",
+      "testCaseId": "OQ-RBAC-04",
+      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-04: SECURITY — a token with a tampered role does not grant access",
+      "status": "passed",
+      "durationMs": 7,
+      "failureMessages": []
+    },
+    {
+      "suite": "rbac.test.js",
+      "testCaseId": "OQ-RBAC-05",
+      "title": "RBAC authority checks (server-side enforcement) OQ-RBAC-05: a token signed with the wrong secret is rejected",
+      "status": "passed",
+      "durationMs": 3,
+      "failureMessages": []
+    },
+    {
       "suite": "softDelete.test.js",
       "testCaseId": "OQ-SD-01",
       "title": "Soft delete only — no hard deletes anywhere OQ-SD-01: new documents default to not-deleted",
       "status": "passed",
-      "durationMs": 139,
+      "durationMs": 110,
       "failureMessages": []
     },
     {
@@ -357,7 +101,7 @@
       "testCaseId": "OQ-SD-02",
       "title": "Soft delete only — no hard deletes anywhere OQ-SD-02: hard delete pathways all throw",
       "status": "passed",
-      "durationMs": 11,
+      "durationMs": 7,
       "failureMessages": []
     },
     {
@@ -365,7 +109,7 @@
       "testCaseId": "OQ-SD-03",
       "title": "Soft delete only — no hard deletes anywhere OQ-SD-03: softDelete sets metadata and hides from default reads",
       "status": "passed",
-      "durationMs": 12,
+      "durationMs": 10,
       "failureMessages": []
     },
     {
@@ -373,7 +117,7 @@
       "testCaseId": "OQ-APP-01",
       "title": "Application bootstrap OQ-APP-01: health endpoint responds ok",
       "status": "passed",
-      "durationMs": 12,
+      "durationMs": 9,
       "failureMessages": []
     },
     {
@@ -381,7 +125,7 @@
       "testCaseId": "OQ-APP-02",
       "title": "Application bootstrap OQ-APP-02: unknown route returns structured 404",
       "status": "passed",
-      "durationMs": 11,
+      "durationMs": 8,
       "failureMessages": []
     },
     {
@@ -389,7 +133,327 @@
       "testCaseId": "OQ-APP-03",
       "title": "Application bootstrap OQ-APP-03: config singleton seeds from defaults and is reused",
       "status": "passed",
-      "durationMs": 37,
+      "durationMs": 29,
+      "failureMessages": []
+    },
+    {
+      "suite": "auth.test.js",
+      "testCaseId": "OQ-AUTH-01",
+      "title": "Authentication, password policy, lockout, session OQ-AUTH-01: valid login returns a session JWT with configured expiry",
+      "status": "passed",
+      "durationMs": 97,
+      "failureMessages": []
+    },
+    {
+      "suite": "auth.test.js",
+      "testCaseId": "OQ-AUTH-02",
+      "title": "Authentication, password policy, lockout, session OQ-AUTH-02: successful login is recorded in the audit trail",
+      "status": "passed",
+      "durationMs": 92,
+      "failureMessages": []
+    },
+    {
+      "suite": "auth.test.js",
+      "testCaseId": "OQ-AUTH-03",
+      "title": "Authentication, password policy, lockout, session OQ-AUTH-03: wrong password is rejected and audited as a failure",
+      "status": "passed",
+      "durationMs": 89,
+      "failureMessages": []
+    },
+    {
+      "suite": "auth.test.js",
+      "testCaseId": "OQ-AUTH-04",
+      "title": "Authentication, password policy, lockout, session OQ-AUTH-04: account locks after the configured number of failures",
+      "status": "passed",
+      "durationMs": 518,
+      "failureMessages": []
+    },
+    {
+      "suite": "auth.test.js",
+      "testCaseId": "OQ-AUTH-05",
+      "title": "Authentication, password policy, lockout, session OQ-AUTH-05: password change rejects a weak password (policy enforced)",
+      "status": "passed",
+      "durationMs": 173,
+      "failureMessages": []
+    },
+    {
+      "suite": "auth.test.js",
+      "testCaseId": "OQ-AUTH-06",
+      "title": "Authentication, password policy, lockout, session OQ-AUTH-06: password change rejects reuse of the current password",
+      "status": "passed",
+      "durationMs": 250,
+      "failureMessages": []
+    },
+    {
+      "suite": "auth.test.js",
+      "testCaseId": "OQ-AUTH-07",
+      "title": "Authentication, password policy, lockout, session OQ-AUTH-07: an expired session token is rejected",
+      "status": "passed",
+      "durationMs": 3,
+      "failureMessages": []
+    },
+    {
+      "suite": "auth.test.js",
+      "testCaseId": "OQ-AUTH-08",
+      "title": "Authentication, password policy, lockout, session OQ-AUTH-08: a request with no token is rejected",
+      "status": "passed",
+      "durationMs": 3,
+      "failureMessages": []
+    },
+    {
+      "suite": "signature.test.js",
+      "testCaseId": "OQ-SIG-01",
+      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-01: signing requires correct re-authentication (wrong password → 401, no signature)",
+      "status": "passed",
+      "durationMs": 101,
+      "failureMessages": []
+    },
+    {
+      "suite": "signature.test.js",
+      "testCaseId": "OQ-SIG-02",
+      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-02: a valid signature captures printed name, UTC time, meaning, and a content hash",
+      "status": "passed",
+      "durationMs": 100,
+      "failureMessages": []
+    },
+    {
+      "suite": "signature.test.js",
+      "testCaseId": "OQ-SIG-03",
+      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-03: signing locks the record (status signed, locked=true)",
+      "status": "passed",
+      "durationMs": 105,
+      "failureMessages": []
+    },
+    {
+      "suite": "signature.test.js",
+      "testCaseId": "OQ-SIG-04",
+      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-04: signature verifies as VALID immediately after signing",
+      "status": "passed",
+      "durationMs": 125,
+      "failureMessages": []
+    },
+    {
+      "suite": "signature.test.js",
+      "testCaseId": "OQ-SIG-05",
+      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-05: invalid meaning is rejected",
+      "status": "passed",
+      "durationMs": 16,
+      "failureMessages": []
+    },
+    {
+      "suite": "signature.test.js",
+      "testCaseId": "OQ-SIG-06",
+      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-06: the Signature collection is append-only (cannot be altered or deleted)",
+      "status": "passed",
+      "durationMs": 121,
+      "failureMessages": []
+    },
+    {
+      "suite": "signature.test.js",
+      "testCaseId": "OQ-SIG-07",
+      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-07: an already-signed record cannot be signed again (409, no second signature)",
+      "status": "passed",
+      "durationMs": 102,
+      "failureMessages": []
+    },
+    {
+      "suite": "signature.test.js",
+      "testCaseId": "OQ-SIG-08",
+      "title": "Electronic signatures — binding, locking, tamper-evidence OQ-SIG-08: a locked-out signer is refused signing even with the correct password",
+      "status": "passed",
+      "durationMs": 185,
+      "failureMessages": []
+    },
+    {
+      "suite": "query.test.js",
+      "testCaseId": "OQ-QRY-01",
+      "title": "Query workflow OQ-QRY-01: a Monitor can raise a query (open + history + audit)",
+      "status": "passed",
+      "durationMs": 98,
+      "failureMessages": []
+    },
+    {
+      "suite": "query.test.js",
+      "testCaseId": "OQ-QRY-02",
+      "title": "Query workflow OQ-QRY-02: full lifecycle raise -> respond -> close with separation of duties",
+      "status": "passed",
+      "durationMs": 292,
+      "failureMessages": []
+    },
+    {
+      "suite": "query.test.js",
+      "testCaseId": "OQ-QRY-03",
+      "title": "Query workflow OQ-QRY-03: an Investigator cannot raise a query (403 — not their authority)",
+      "status": "passed",
+      "durationMs": 93,
+      "failureMessages": []
+    },
+    {
+      "suite": "query.test.js",
+      "testCaseId": "OQ-QRY-04",
+      "title": "Query workflow OQ-QRY-04: an Investigator cannot close a query (403 — separation of duties)",
+      "status": "passed",
+      "durationMs": 188,
+      "failureMessages": []
+    },
+    {
+      "suite": "query.test.js",
+      "testCaseId": "OQ-QRY-05",
+      "title": "Query workflow OQ-QRY-05: an open query cannot be closed until it has been answered (409)",
+      "status": "passed",
+      "durationMs": 185,
+      "failureMessages": []
+    },
+    {
+      "suite": "export.test.js",
+      "testCaseId": "OQ-EXP-01",
+      "title": "Dataset export with integrity checksum OQ-EXP-01: DataManager can export; files + checksum manifest returned",
+      "status": "passed",
+      "durationMs": 98,
+      "failureMessages": []
+    },
+    {
+      "suite": "export.test.js",
+      "testCaseId": "OQ-EXP-02",
+      "title": "Dataset export with integrity checksum OQ-EXP-02: recomputing the checksum of the exported file matches the manifest",
+      "status": "passed",
+      "durationMs": 96,
+      "failureMessages": []
+    },
+    {
+      "suite": "export.test.js",
+      "testCaseId": "OQ-EXP-03",
+      "title": "Dataset export with integrity checksum OQ-EXP-03: an export is recorded in the audit trail",
+      "status": "passed",
+      "durationMs": 96,
+      "failureMessages": []
+    },
+    {
+      "suite": "export.test.js",
+      "testCaseId": "OQ-EXP-04",
+      "title": "Dataset export with integrity checksum OQ-EXP-04: SECURITY — an Investigator cannot export the dataset (403 + logged)",
+      "status": "passed",
+      "durationMs": 93,
+      "failureMessages": []
+    },
+    {
+      "suite": "export.test.js",
+      "testCaseId": "OQ-EXP-05",
+      "title": "Dataset export with integrity checksum OQ-EXP-05: forms.csv rows are ordered deterministically by _id",
+      "status": "passed",
+      "durationMs": 202,
+      "failureMessages": []
+    },
+    {
+      "suite": "form.test.js",
+      "testCaseId": "OQ-FORM-01",
+      "title": "Subject enrolment and form data entry OQ-FORM-01: enrolment sets a server timestamp and is audited",
+      "status": "passed",
+      "durationMs": 10,
+      "failureMessages": []
+    },
+    {
+      "suite": "form.test.js",
+      "testCaseId": "OQ-FORM-02",
+      "title": "Subject enrolment and form data entry OQ-FORM-02: SECURITY — a client-supplied timestamp is ignored (server time wins)",
+      "status": "passed",
+      "durationMs": 8,
+      "failureMessages": []
+    },
+    {
+      "suite": "form.test.js",
+      "testCaseId": "OQ-FORM-03",
+      "title": "Subject enrolment and form data entry OQ-FORM-03: invalid form data is rejected (422) and nothing is written",
+      "status": "passed",
+      "durationMs": 8,
+      "failureMessages": []
+    },
+    {
+      "suite": "form.test.js",
+      "testCaseId": "OQ-FORM-04",
+      "title": "Subject enrolment and form data entry OQ-FORM-04: valid update diff-audits only changed fields with a reason",
+      "status": "passed",
+      "durationMs": 17,
+      "failureMessages": []
+    },
+    {
+      "suite": "form.test.js",
+      "testCaseId": "OQ-FORM-05",
+      "title": "Subject enrolment and form data entry OQ-FORM-05: an update without a reason for change is rejected (422)",
+      "status": "passed",
+      "durationMs": 11,
+      "failureMessages": []
+    },
+    {
+      "suite": "form.test.js",
+      "testCaseId": "OQ-FORM-06",
+      "title": "Subject enrolment and form data entry OQ-FORM-06: SECURITY — there is no API path to modify an audit entry",
+      "status": "passed",
+      "durationMs": 96,
+      "failureMessages": []
+    },
+    {
+      "suite": "form.test.js",
+      "testCaseId": "OQ-FORM-07",
+      "title": "Subject enrolment and form data entry OQ-FORM-07: a stale concurrent save is rejected (optimistic concurrency)",
+      "status": "passed",
+      "durationMs": 27,
+      "failureMessages": []
+    },
+    {
+      "suite": "form.test.js",
+      "testCaseId": "OQ-FORM-08",
+      "title": "Subject enrolment and form data entry OQ-FORM-08: a subject exposes its study visit schedule (enables form entry)",
+      "status": "passed",
+      "durationMs": 7,
+      "failureMessages": []
+    },
+    {
+      "suite": "amendment.test.js",
+      "testCaseId": "OQ-AMD-01",
+      "title": "Amendment workflow on signed records OQ-AMD-01: SECURITY — editing a signed record via normal update is blocked (409)",
+      "status": "passed",
+      "durationMs": 103,
+      "failureMessages": []
+    },
+    {
+      "suite": "amendment.test.js",
+      "testCaseId": "OQ-AMD-02",
+      "title": "Amendment workflow on signed records OQ-AMD-02: amending requires a reason for change",
+      "status": "passed",
+      "durationMs": 100,
+      "failureMessages": []
+    },
+    {
+      "suite": "amendment.test.js",
+      "testCaseId": "OQ-AMD-03",
+      "title": "Amendment workflow on signed records OQ-AMD-03: a valid amendment bumps version, re-opens the record, and is audited",
+      "status": "passed",
+      "durationMs": 106,
+      "failureMessages": []
+    },
+    {
+      "suite": "amendment.test.js",
+      "testCaseId": "OQ-AMD-04",
+      "title": "Amendment workflow on signed records OQ-AMD-04: after amendment the prior signature no longer verifies (tamper-evident)",
+      "status": "passed",
+      "durationMs": 120,
+      "failureMessages": []
+    },
+    {
+      "suite": "config.test.js",
+      "testCaseId": "OQ-CFG-01",
+      "title": "Config secret guard OQ-CFG-01: refuses to start in production with default secrets",
+      "status": "passed",
+      "durationMs": 4,
+      "failureMessages": []
+    },
+    {
+      "suite": "config.test.js",
+      "testCaseId": "OQ-CFG-02",
+      "title": "Config secret guard OQ-CFG-02: allows default secrets outside production (dev/test/OQ)",
+      "status": "passed",
+      "durationMs": 0,
       "failureMessages": []
     },
     {
@@ -413,7 +477,7 @@
       "testCaseId": "OQ-EC-03",
       "title": "Edit-check engine OQ-EC-03: vitals range checks catch out-of-range systolic",
       "status": "passed",
-      "durationMs": 1,
+      "durationMs": 0,
       "failureMessages": []
     },
     {
@@ -444,6 +508,22 @@
       "suite": "editChecks.test.js",
       "testCaseId": "OQ-EC-07",
       "title": "Edit-check engine OQ-EC-07: an ongoing adverse event cannot have an end date",
+      "status": "passed",
+      "durationMs": 0,
+      "failureMessages": []
+    },
+    {
+      "suite": "editChecks.test.js",
+      "testCaseId": "OQ-EC-08",
+      "title": "Edit-check engine OQ-EC-08: numeric vitals sent as strings are rejected (no silent range bypass)",
+      "status": "passed",
+      "durationMs": 0,
+      "failureMessages": []
+    },
+    {
+      "suite": "editChecks.test.js",
+      "testCaseId": "OQ-EC-09",
+      "title": "Edit-check engine OQ-EC-09: an ongoing AE flagged with string \"true\" still cannot have an end date",
       "status": "passed",
       "durationMs": 0,
       "failureMessages": []
