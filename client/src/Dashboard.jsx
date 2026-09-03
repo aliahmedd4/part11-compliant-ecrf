@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useAuth } from './AuthContext.jsx';
 import { api } from './api.js';
 import VitalsForm from './VitalsForm.jsx';
@@ -26,8 +26,16 @@ export default function Dashboard() {
   const loadSubjects = useCallback(async () => {
     try { setSubjects(await api.listSubjects()); } catch (e) { setMessage(e.message); }
   }, []);
+  const formsReqSeq = useRef(0);
   const loadForms = useCallback(async (subjectId) => {
-    try { setForms(await api.listForms(subjectId)); } catch (e) { setMessage(e.message); }
+    const seq = formsReqSeq.current + 1;
+    formsReqSeq.current = seq;
+    try {
+      const data = await api.listForms(subjectId);
+      if (seq === formsReqSeq.current) setForms(data); // ignore out-of-order responses
+    } catch (e) {
+      if (seq === formsReqSeq.current) setMessage(e.message);
+    }
   }, []);
   const loadVisits = useCallback(async (subjectId) => {
     try { setVisits(await api.listVisits(subjectId)); } catch (e) { setMessage(e.message); }
