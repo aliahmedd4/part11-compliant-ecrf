@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useAuth } from './AuthContext.jsx';
 import { api } from './api.js';
 import VitalsForm from './VitalsForm.jsx';
@@ -14,6 +14,7 @@ export default function Dashboard() {
   const [subjects, setSubjects] = useState([]);
   const [selected, setSelected] = useState(null);
   const [forms, setForms] = useState([]);
+  const [visits, setVisits] = useState([]);
   const [signing, setSigning] = useState(null);
   const [message, setMessage] = useState(null);
 
@@ -25,12 +26,27 @@ export default function Dashboard() {
   const loadSubjects = useCallback(async () => {
     try { setSubjects(await api.listSubjects()); } catch (e) { setMessage(e.message); }
   }, []);
+  const formsReqSeq = useRef(0);
   const loadForms = useCallback(async (subjectId) => {
-    try { setForms(await api.listForms(subjectId)); } catch (e) { setMessage(e.message); }
+    const seq = formsReqSeq.current + 1;
+    formsReqSeq.current = seq;
+    try {
+      const data = await api.listForms(subjectId);
+      if (seq === formsReqSeq.current) setForms(data); // ignore out-of-order responses
+    } catch (e) {
+      if (seq === formsReqSeq.current) setMessage(e.message);
+    }
+  }, []);
+  const loadVisits = useCallback(async (subjectId) => {
+    try { setVisits(await api.listVisits(subjectId)); } catch (e) { setMessage(e.message); }
   }, []);
 
   useEffect(() => { loadSubjects(); }, [loadSubjects]);
-  useEffect(() => { if (selected) loadForms(selected._id); }, [selected, loadForms]);
+  useEffect(() => {
+    if (!selected) return;
+    loadForms(selected._id);
+    loadVisits(selected._id);
+  }, [selected, loadForms, loadVisits]);
 
   async function enrol() {
     const code = `S-${Math.floor(Math.random() * 9000 + 1000)}`;
@@ -103,15 +119,14 @@ export default function Dashboard() {
             </tbody>
           </table>
 
-          {canWriteForm && selected.visitId !== undefined && (
+          {canWriteForm && visits.length > 0 && (
             <div style={{ marginTop: 16 }}>
               <h4>Enter vital signs</h4>
               <VitalsForm
                 subjectId={selected._id}
-                visitId={forms[0]?.visitId || selected.visitId}
+                visitId={visits[0]._id}
                 onCreated={() => loadForms(selected._id)}
               />
-              {!forms[0]?.visitId && <p className="muted">Note: a visit id is required; wired from existing forms or seed data.</p>}
             </div>
           )}
         </div>

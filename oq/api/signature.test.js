@@ -6,6 +6,8 @@ const { seedFixtures, PASSWORD } = require('../setup/fixtures');
 
 const AuditEvent = require(path.join(SERVER_SRC, 'models', 'auditEvent.model'));
 const Signature = require(path.join(SERVER_SRC, 'models', 'signature.model'));
+const User = require(path.join(SERVER_SRC, 'models', 'user.model'));
+const authService = require(path.join(SERVER_SRC, 'services', 'auth.service'));
 
 /**
  * OQ — Electronic Signatures (21 CFR 11 subpart C: 11.50, 11.70, 11.200).
@@ -81,5 +83,41 @@ describe('Electronic signatures — binding, locking, tamper-evidence', () => {
     const sig = await Signature.findOne({ recordId: form._id });
     await expect(Signature.updateOne({ _id: sig._id }, { meaning: 'approver' })).rejects.toThrow(/append-only/i);
     await expect(Signature.deleteOne({ _id: sig._id })).rejects.toThrow(/append-only/i);
+  });
+
+  test('OQ-SIG-07: an already-signed record cannot be signed again (409, no second signature)', async () => {
+    const form = await newVitalsForm();
+    const first = await ctx.agent.post(`/forms/${form._id}/sign`).set('Authorization', `Bearer ${token}`)
+      .send({ password: PASSWORD, meaning: 'author' });
+    expect(first.status).toBe(201);
+
+    const second = await ctx.agent.post(`/forms/${form._id}/sign`).set('Authorization', `Bearer ${token}`)
+      .send({ password: PASSWORD, meaning: 'reviewer' });
+    expect(second.status).toBe(409);
+    expect(second.body.error).toBe('already_signed');
+
+    const count = await Signature.countDocuments({ recordId: form._id });
+    expect(count).toBe(1);
+  });
+
+  test('OQ-SIG-08: a locked-out signer is refused signing even with the correct password', async () => {
+    // Dedicated Investigator so we do not disturb the shared fixture token.
+    const passwordHash = await authService.hashPassword(PASSWORD);
+    await User.create({ username: 'siglock', printedName: 'Sig Lock', role: 'Investigator', passwordHash, passwordChangedAtUTC: new Date() });
+    const lockToken = (await ctx.agent.post('/auth/login').send({ username: 'siglock', password: PASSWORD })).body.token;
+
+    const created = await ctx.agent.post('/forms').set('Authorization', `Bearer ${lockToken}`)
+      .send({ subjectId: fx.subject._id, visitId: fx.visit._id, type: 'vitals', data: { systolic: 120, diastolic: 80, heartRate: 70 } });
+    const formId = created.body._id;
+
+    // Lock the account (as the failed-login path would).
+    await User.updateOne({ username: 'siglock' }, { lockedUntil: new Date(Date.now() + 3600000) });
+
+    const res = await ctx.agent.post(`/forms/${formId}/sign`).set('Authorization', `Bearer ${lockToken}`)
+      .send({ password: PASSWORD, meaning: 'author' });
+    expect(res.status).toBe(401);
+    expect(res.body.error).toBe('reauth_failed');
+    const count = await Signature.countDocuments({ recordId: formId });
+    expect(count).toBe(0);
   });
 });

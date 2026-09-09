@@ -43,4 +43,14 @@ describe('Edit-check engine', () => {
     const errors = checkForm('adverse_event', { term: 'Nausea', severity: 'moderate', startDate: '2026-02-01', ongoing: true, endDate: '2026-03-01' });
     expect(errors.find((e) => e.field === 'endDate' && e.rule === 'cross_field')).toBeDefined();
   });
+
+  test('OQ-EC-08: numeric vitals sent as strings are rejected (no silent range bypass)', () => {
+    const errors = checkForm('vitals', { systolic: '500', diastolic: '80', heartRate: '70' });
+    expect(errors.find((e) => e.field === 'systolic' && e.rule === 'numeric')).toBeDefined();
+  });
+
+  test('OQ-EC-09: an ongoing AE flagged with string "true" still cannot have an end date', () => {
+    const errors = checkForm('adverse_event', { term: 'Rash', severity: 'mild', startDate: '2026-02-01', ongoing: 'true', endDate: '2026-03-01' });
+    expect(errors.find((e) => e.field === 'endDate' && e.rule === 'cross_field')).toBeDefined();
+  });
 });

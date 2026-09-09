@@ -27,6 +27,7 @@ export const api = {
   me: () => request('GET', '/auth/me'),
   listSubjects: () => request('GET', '/subjects'),
   enrolSubject: (payload) => request('POST', '/subjects', payload),
+  listVisits: (subjectId) => request('GET', `/subjects/${subjectId}/visits`),
   listForms: (subjectId) => request('GET', `/forms${subjectId ? `?subjectId=${subjectId}` : ''}`),
   createForm: (payload) => request('POST', '/forms', payload),
   updateForm: (id, data, reason) => request('PATCH', `/forms/${id}`, { data, reason }),

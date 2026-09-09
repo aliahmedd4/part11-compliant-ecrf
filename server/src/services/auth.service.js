@@ -62,13 +62,17 @@ function hashPassword(plain) {
 }
 
 /**
- * Verify a raw username/password against the stored hash. Used both for login and
- * for signing re-authentication (11.200(a)(1)). Does NOT mutate lockout state.
+ * Verify a raw username/password against the stored hash. Used for signing
+ * re-authentication (11.200(a)(1)). A signature is a controlled act, so a
+ * deactivated or currently locked-out account is refused here just as it is at
+ * login — otherwise the signing path would bypass the lockout / revocation
+ * controls. Does NOT mutate lockout state.
  * @returns {Promise<boolean>}
  */
 async function verifyCredentials(username, password) {
   const user = await User.findOne({ username });
-  if (!user) return false;
+  if (!user || !user.active) return false;
+  if (user.lockedUntil && user.lockedUntil > serverNow()) return false;
   return bcrypt.compare(password, user.passwordHash);
 }
 

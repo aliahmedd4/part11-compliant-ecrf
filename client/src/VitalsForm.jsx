@@ -19,10 +19,13 @@ export default function VitalsForm({ subjectId, visitId, onCreated }) {
     e.preventDefault();
     setBusy(true); setErrors([]);
     try {
+      // A blank field must stay ABSENT (so the server reports it as required),
+      // never Number('') === 0 which would be a real, wrong measurement.
+      const toNum = (v) => (v === '' ? undefined : Number(v));
       const data = {
-        systolic: Number(values.systolic),
-        diastolic: Number(values.diastolic),
-        heartRate: Number(values.heartRate),
+        systolic: toNum(values.systolic),
+        diastolic: toNum(values.diastolic),
+        heartRate: toNum(values.heartRate),
       };
       await api.createForm({ subjectId, visitId, type: 'vitals', data });
       setValues({ systolic: '', diastolic: '', heartRate: '' });

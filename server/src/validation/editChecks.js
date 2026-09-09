@@ -56,6 +56,11 @@ function checkVitals(d) {
   required(errors, d, 'systolic', 'Systolic blood pressure is required');
   required(errors, d, 'diastolic', 'Diastolic blood pressure is required');
   required(errors, d, 'heartRate', 'Heart rate is required');
+  // A present-but-non-numeric value (e.g. the string "500") must not slip past
+  // the range/cross-field checks, which only run on real numbers.
+  numeric(errors, d, 'systolic');
+  numeric(errors, d, 'diastolic');
+  numeric(errors, d, 'heartRate');
   range(errors, d, 'systolic', 60, 300);
   range(errors, d, 'diastolic', 30, 200);
   range(errors, d, 'heartRate', 20, 250);
@@ -80,8 +85,10 @@ function checkAdverseEvent(d) {
   if (start && end && !Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime()) && end < start) {
     errors.push({ field: 'endDate', rule: 'cross_field', message: 'End date cannot be before start date' });
   }
-  // Cross-field: an ongoing event cannot also have an end date.
-  if (d.ongoing === true && d.endDate) {
+  // Cross-field: an ongoing event cannot also have an end date. Accept common
+  // truthy encodings (boolean true, "true", 1) so a lenient client cannot bypass it.
+  const ongoing = d.ongoing === true || d.ongoing === 'true' || d.ongoing === 1;
+  if (ongoing && d.endDate) {
     errors.push({ field: 'endDate', rule: 'cross_field', message: 'An ongoing event cannot have an end date' });
   }
   return errors;
@@ -102,6 +109,13 @@ function range(errors, d, field, min, max) {
 }
 function isNum(v) {
   return typeof v === 'number' && !Number.isNaN(v);
+}
+function numeric(errors, d, field) {
+  const v = d[field];
+  if (v === undefined || v === null || v === '') return; // completeness handled by required()
+  if (typeof v !== 'number' || Number.isNaN(v)) {
+    errors.push({ field, rule: 'numeric', message: `${field} must be a number` });
+  }
 }
 
 module.exports = { checkForm };
